@@ -28,8 +28,13 @@ repositories {
 
 
 dependencies {
+	compile('org.springframework.cloud:spring-cloud-sleuth-zipkin')
+	compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+	compile('org.springframework.cloud:spring-cloud-netflix-hystrix-stream')
+	compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
 	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('io.springfox:springfox-swagger2:2.5.0')

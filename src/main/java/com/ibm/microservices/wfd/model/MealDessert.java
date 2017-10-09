@@ -12,9 +12,9 @@ public class MealDessert {
   private String type;
 
   public MealDessert(){
-    this.order = 0;
+    this.order = 3;
     this.menu = new ArrayList<String>();
-    this.type = "none";
+    this.type = "dessert";
   }
 
   public MealDessert(int order, List<String> menu, String type){

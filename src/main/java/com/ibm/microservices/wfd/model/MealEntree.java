@@ -12,9 +12,9 @@ public class MealEntree {
   private String type;
 
   public MealEntree(){
-    this.order = 0;
+    this.order = 2;
     this.menu = new ArrayList<String>();
-    this.type = "none";
+    this.type = "entree";
   }
 
   public MealEntree(int order, List<String> menu, String type){

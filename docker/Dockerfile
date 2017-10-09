@@ -3,5 +3,6 @@ FROM java:8
 ADD app.jar app.jar
 RUN bash -c 'touch /app.jar'
 
-EXPOSE 8180
+EXPOSE 8180 9180
+
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]

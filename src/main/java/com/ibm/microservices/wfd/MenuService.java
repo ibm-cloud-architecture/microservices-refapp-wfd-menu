@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.client.RestTemplate;
+
+import com.ibm.microservices.wfd.MenuAggregate;
 import com.ibm.microservices.wfd.model.MealEntree;
 import com.ibm.microservices.wfd.model.MealAppetizer;
 import com.ibm.microservices.wfd.model.MealDessert;
@@ -19,14 +20,13 @@ import com.ibm.microservices.wfd.model.MealDessert;
 @Component
 @RestController
 @ResponseBody
-@EnableConfigurationProperties
 public class MenuService {
 
   @Autowired
-  private MenuConfiguration config;
-  
-  @Autowired
   private RestTemplate restTemplate;
+
+  @Autowired
+  private MenuAggregate aggregate;
 
   @ApiOperation(value = "Get the menu", notes = "Returns a list of the appetizers, starters and desserts that are on the menu")
   @RequestMapping(method = RequestMethod.GET, path="/menu", produces = "application/json")
@@ -38,21 +38,18 @@ public class MenuService {
     @ApiResponse(code = 500, message = "Failure")})
   public Menu getMenu() {
 
-    Menu newMenu = new Menu();
+    Menu menu = new Menu();
 
-    MealAppetizer apps =
-        this.restTemplate.getForObject(this.config.getAppetizers(), MealAppetizer.class);
-    newMenu.setAppetizers(apps);
+    MealAppetizer apps = aggregate.getCurrentAppetizers();
+    menu.setAppetizers(apps);
 
-    MealEntree entrees =
-        this.restTemplate.getForObject(this.config.getEntrees(), MealEntree.class);
-    newMenu.setEntrees(entrees);
+    MealEntree entrees = aggregate.getCurrentEntrees();
+    menu.setEntrees(entrees);
 
-    MealDessert desserts =
-        this.restTemplate.getForObject(this.config.getDesserts(), MealDessert.class);
-    newMenu.setDesserts(desserts);
+    MealDessert desserts = aggregate.getCurrentDesserts();
+    menu.setDesserts(desserts);
 
-    return newMenu;
+    return menu;
   }
 
 }
