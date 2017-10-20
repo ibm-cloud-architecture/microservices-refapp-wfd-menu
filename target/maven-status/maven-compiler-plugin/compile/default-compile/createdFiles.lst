@@ -1,0 +1,9 @@
+application/rest/model/MealEntree.class
+application/rest/model/MealAppetizer.class
+application/rest/MenuApplication.class
+application/rest/MenuResource.class
+application/rest/MenuList.class
+application/rest/HealthEndpoint.class
+application/rest/model/MealDessert.class
+application/rest/Menu.class
+application/rest/MenuAggregate.class
