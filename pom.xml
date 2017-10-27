@@ -15,6 +15,12 @@
         <app.name>WfdMenu</app.name>
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
+        <appetizer_host>localhost</appetizer_host>
+        <appetizer_port>9080</appetizer_port>
+        <entree_host>localhost</entree_host>
+        <entree_port>9080</entree_port>
+        <dessert_host>localhost</dessert_host>
+        <dessert_port>9080</dessert_port>
         <warContext>${app.name}</warContext>
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
         <packaging.type>usr</packaging.type>
@@ -121,6 +127,9 @@
                     <bootstrapProperties>
                         <default.http.port>${testServerHttpPort}</default.http.port>
                         <default.https.port>${testServerHttpsPort}</default.https.port>
+                        <appetizer_url>http://${appetizer_host}:${appetizer_port}/WfdAppetizer/rest/appetizer</appetizer_url>
+                        <entree_url>http://${entree_host}:${entree_port}/WfdEntree/rest/entree</entree_url>
+                        <dessert_url>http://${dessert_host}:${dessert_port}/WfdDessert/rest/dessert</dessert_url>
                     </bootstrapProperties>
                 </configuration>
                 <executions>
