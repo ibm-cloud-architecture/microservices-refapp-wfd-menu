@@ -8,6 +8,4 @@ COPY target/liberty/wlp/usr/shared /opt/ibm/wlp/usr/shared/
 # Install required features if not present
 RUN installUtility install --acceptLicense defaultServer
 
-EXPOSE 9084 9443
-
 CMD ["/opt/ibm/wlp/bin/server", "run", "defaultServer"]
