@@ -339,7 +339,7 @@ wfd-menu                       microprofile        0f28e1d268d8        15 second
 ```
 2. Before running the docker images, make sure [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) services are running. If you are running all the services locally on your system, you need to modify the ports. 
 
-- Open POM.xml in your respective microservice. Modify the below. Place the desired port here. Make sure all the services are running on different ports.
+- Modify the below. Place the desired port here. Make sure all the services are running on different ports.
 
 ```
 docker run -p <PORT_NUMBER>:9080 --name <NAME> -t <IMAGE_NAME>
