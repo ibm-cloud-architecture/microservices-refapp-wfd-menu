@@ -364,7 +364,7 @@ You can find a greater detail on how to run these services locally [here](https:
 3. Run the docker image.
 
 ```
-docker run -p 9080:9080 --name menu -t --link appetizer:appetizer --link dessert:dessert --link entree:entree --env appetizer_url=http://appetizer:9081/WfdAppetizer/rest/appetizer --env entree_url=http://entree:9083/WfdEntree/rest/entree --env dessert_url=http://dessert:9082/WfdDessert/rest/dessert menu-service
+docker run -p 9080:9080 --name menu -t --link appetizer:appetizer --link dessert:dessert --link entree:entree --env appetizer_url=http://appetizer:9080/WfdAppetizer/rest/appetizer --env entree_url=http://entree:9080/WfdEntree/rest/entree --env dessert_url=http://dessert:9080/WfdDessert/rest/dessert wfd-menu:microprofile
 ```
 
 When it is done, you will see the following output.
