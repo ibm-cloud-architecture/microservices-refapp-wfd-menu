@@ -148,39 +148,6 @@ If you are planning to include zipkin tracer in your application, please add the
 
 ##### Running the application locally using Maven Build
 
-
-#### Docker file
-
-We are using Docker to containerize the application. With Docker, you can pack, ship, and run applications on a portable, lightweight container that can run anywhere virtually.
-
-```
-FROM websphere-liberty:microProfile
-
-MAINTAINER IBM Java engineering at IBM Cloud
-
-COPY /target/liberty/wlp/usr/servers/defaultServer /config/
-COPY target/liberty/wlp/usr/shared /opt/ibm/wlp/usr/shared/
-
-RUN wget -t 10 -x -nd -P /opt/ibm/wlp/usr https://repo1.maven.org/maven2/net/wasdev/wlp/tracer/liberty-opentracing-zipkintracer/1.0/liberty-opentracing-zipkintracer-1.0-sample.zip && cd /opt/ibm/wlp/usr && unzip liberty-opentracing-zipkintracer-1.0-sample.zip && rm liberty-opentracing-zipkintracer-1.0-sample.zip
-
-# Install required features if not present
-RUN installUtility install --acceptLicense defaultServer
-
-CMD ["/opt/ibm/wlp/bin/server", "run", "defaultServer"]
-```
-
-- The `FROM` instruction sets the base image. You're setting the base image to `websphere-liberty:microProfile`.
-- The `MAINTAINER` instruction sets the Author field. Here it is `IBM Java engineering at IBM Cloud`.
-- The `COPY` instruction copies directories and files from a specified source to a destination in the container file system.
-  - You're copying the `/target/liberty/wlp/usr/servers/defaultServer` to the `config` directory in the container.
-  - You're replacing the contents of `/opt/ibm/wlp/usr/shared/` with the contents of `target/liberty/wlp/usr/shared`.
-- The `RUN` instruction runs the commands. 
-  - The first instruction gets the Opentracing Zipkin feature and installs it in your server.
-  - The second instruction is a precondition to install all the utilities in the server.xml file. You can use the RUN command to install the utilities on the base image.
-- The `CMD` instruction provides defaults for an executing container.
-
-##### Running the application locally in a container
-
 1. Clone this repository.
 
    `git clone https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-menu.git`
