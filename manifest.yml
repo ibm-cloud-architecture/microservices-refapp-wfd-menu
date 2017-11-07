@@ -1,0 +1,3 @@
+applications:
+- name: wfd-menu
+  memory: 512M
