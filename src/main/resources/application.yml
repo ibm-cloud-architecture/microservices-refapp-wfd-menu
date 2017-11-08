@@ -1,24 +1,9 @@
 spring:
   application:
     name: menu-service
-  sleuth:
-    sampler:
-      percentage: 1.0
-  zipkin:
-    baseUrl: ${vcap.services.zipkin-server.credentials.uri:http://localhost:9411}
-  rabbitmq:
-    addresses: ${vcap.services.cloudamqp-wfd-resiliency.credentials.uri}
 
 server:
   port: ${PORT:8180}
-
-eureka:
-  client:
-    serviceUrl:
-       defaultZone: ${vcap.services.eureka-service-discovery.credentials.uri:http://localhost:8761/eureka/}
-  instance:
-    hostname: ${vcap.application.uris[0]:${spring.cloud.client.ipAddress}}
-    preferIpAddress: true
 
 wfd:
   menu:
@@ -28,11 +13,3 @@ wfd:
       url: http://entree-service/entrees
     desserts:
       url: http://dessert-service/desserts
-
----
-spring:
-  profiles: cloud
-eureka:
-  instance:
-    nonSecurePort: 80
-    preferIpAddress: false
