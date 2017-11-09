@@ -20,11 +20,11 @@ eureka:
 wfd:
   menu:
     appetizers:
-      url: http://wfdappetizer-service/appetizers
+      url: http://appetizer-service/appetizers
     entrees:
-      url: http://wfdentree-service/entrees
+      url: http://entree-service/entrees
     desserts:
-      url: http://wfddessert-service/desserts
+      url: http://dessert-service/desserts
 
 ---
 #spring:
