@@ -1,0 +1,40 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+revisionHistoryLimit: 1
+image:
+  repository: ibmcase
+  name: wfd-menu
+  tag: spring-cloud
+  pullPolicy: IfNotPresent
+  containerPort: 8180
+  resources:
+    requests:
+      cpu: 200m
+      memory: 300Mi
+service:
+  name: Node
+  type: NodePort
+  servicePort: 8180
+zipkin:
+  service: spring-stack-zipkin-server
+  port: 9411
+eureka:
+  service: spring-stack-spring-eureka-server
+  port: 8761
+  preferIpAddress: true
+rabbitmq:
+  addresses:
+  host: rabbitmq
+  port: 5672
+  username: guest
+  password: guest
+  virtual-host:
+wfd:
+  menu:
+    appetizers:
+      url: http://wfdappetizer-service/appetizers
+    entrees:
+      url: http://wfdentree-service/entrees
+    desserts:
+      url: http://wfddessert-service/desserts

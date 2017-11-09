@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-configmap
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: wfdmenu
+data:
+  application.yaml: |+
+    spring:
+      sleuth:
+        sampler:
+          percentage: 1.0
+      zipkin:
+        baseUrl: http://{{ .Values.zipkin.service }}:{{ .Values.zipkin.port }}
+
+    server:
+      port: {{ .Values.image.containerPort }}
+
+    eureka:
+      client:
+        serviceUrl:
+           defaultZone: http://{{ .Values.eureka.service }}:{{ .Values.eureka.port }}/eureka/
+      instance:
+        preferIpAddress: {{ .Values.eureka.preferIpAddress }}
+
+    rabbitmq:
+      addresses: {{ .Values.rabbitmq.addresses }}
+      host: http://{{ .Values.rabbitmq.host }}
+      port: {{ .Values.rabbitmq.port }}
+      username: {{ .Values.rabbitmq.username }}
+      password: {{ .Values.rabbitmq.password }}
+      virtual-host: {{ .Values.rabbitmq.virtualHost }}
+
+    wfd:
+      menu:
+        appetizers:
+          url: {{ .Values.wfd.menu.appetizers.url }}
+        entrees:
+          url: {{ .Values.wfd.menu.entrees.url }}
+        desserts:
+          url: {{ .Values.wfd.menu.desserts.url }}
+
+  bootstrap.yaml: |+
+    spring:
+      application:
+        name: wfdmenu-service
