@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "refarchcloudnativewfdmenu-service"
+  name: "wfdmenu-service"
 spec:
   # if your cluster supports it, uncomment the following to automatically create
   # an external load-balanced IP for the frontend service.
@@ -15,12 +15,12 @@ spec:
     port: 9443
 
   selector:
-    app: "refarchcloudnativewfdmenu-selector"
+    app: "wfdmenu-selector"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "refarchcloudnativewfdmenu-deployment"
+  name: "wfdmenu-deployment"
 spec:
   # this replicas value is default
   # modify it according to your case
@@ -28,14 +28,14 @@ spec:
   template:
     metadata:
       labels:
-        app: "refarchcloudnativewfdmenu-selector"
+        app: "wfdmenu-selector"
     spec:
       containers:
-      - name: refarchcloudnativewfdmenu
-        image: refarchcloudnativewfdmenu:latest
+      - name: wfdmenu
+        image: wfdmenu:v1.0.0
         readinessProbe:
           httpGet:
-            path: /refarchcloudnativewfdmenu/health
+            path: /WfdMenu/rest/menu
             port: 9080
           initialDelaySeconds: 20
         # resources:
