@@ -1,6 +1,10 @@
-FROM java:8
+FROM openjdk:8-alpine
 
-ADD app.jar app.jar
+RUN apk --no-cache update \
+ && apk add bash
+
+COPY target/docker/wfd-menu-*.jar app.jar
+
 RUN bash -c 'touch /app.jar'
 
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
