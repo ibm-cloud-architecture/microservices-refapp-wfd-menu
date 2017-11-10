@@ -37,7 +37,8 @@ spec:
           httpGet:
             path: /WfdMenu/rest/menu
             port: 9080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
+          timeoutSeconds: 60
         # resources:
         #   requests:
         #     cpu: 100m
