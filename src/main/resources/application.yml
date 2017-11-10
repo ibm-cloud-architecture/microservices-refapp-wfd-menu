@@ -2,20 +2,9 @@ spring:
   sleuth:
     sampler:
       percentage: 1.0
-  zipkin:
-    baseUrl: http://localhost:9411
-  rabbitmq:
-    addresses: amqp://guest:guest@localhost:5672
 
 server:
   port: 8180
-
-eureka:
-  client:
-    serviceUrl:
-       defaultZone: http://localhost:8761/eureka/
-  instance:
-    preferIpAddress: true
 
 wfd:
   menu:
@@ -25,11 +14,3 @@ wfd:
       url: http://entree-service/entrees
     desserts:
       url: http://dessert-service/desserts
-
----
-#spring:
-#  profiles: cloud
-#eureka:
-#  instance:
-#    nonSecurePort: 80
-#    preferIpAddress: false
