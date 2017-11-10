@@ -14,7 +14,7 @@ image:
       memory: 300Mi
 service:
   name: Node
-  type: NodePort
+  type: ClusterIP
   servicePort: 8180
 zipkin:
   service: spring-stack-zipkin-server
@@ -23,18 +23,21 @@ eureka:
   service: spring-stack-spring-eureka-server
   port: 8761
   preferIpAddress: true
+config:
+  service: spring-stack-spring-config-server
+  port: 8888
 rabbitmq:
-  addresses:
+  addresses: amqp://guest:guest@rabbitmq:5672
   host: rabbitmq
   port: 5672
   username: guest
   password: guest
-  virtual-host:
+  virtual-host: /
 wfd:
   menu:
     appetizers:
-      url: http://wfdappetizer-service/appetizers
+      url: http://appetizer-service/appetizers
     entrees:
-      url: http://wfdentree-service/entrees
+      url: http://entree-service/entrees
     desserts:
-      url: http://wfddessert-service/desserts
+      url: http://dessert-service/desserts

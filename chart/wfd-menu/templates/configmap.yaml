@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Chart.Name }}-configmap
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    component: wfdmenu
+    component: {{ .Chart.Name }}
 data:
   application.yaml: |+
     spring:
@@ -26,14 +26,6 @@ data:
       instance:
         preferIpAddress: {{ .Values.eureka.preferIpAddress }}
 
-    rabbitmq:
-      addresses: {{ .Values.rabbitmq.addresses }}
-      host: http://{{ .Values.rabbitmq.host }}
-      port: {{ .Values.rabbitmq.port }}
-      username: {{ .Values.rabbitmq.username }}
-      password: {{ .Values.rabbitmq.password }}
-      virtual-host: {{ .Values.rabbitmq.virtualHost }}
-
     wfd:
       menu:
         appetizers:
@@ -45,5 +37,15 @@ data:
 
   bootstrap.yaml: |+
     spring:
-      application:
-        name: wfdmenu-service
+      cloud:
+        config:
+          enabled: true
+          uri: http://{{ .Values.config.service }}:{{ .Values.config.port }}
+
+      rabbitmq:
+        addresses: {{ .Values.rabbitmq.addresses }}
+        host: {{ .Values.rabbitmq.host }}
+        port: {{ .Values.rabbitmq.port }}
+        username: {{ .Values.rabbitmq.username }}
+        password: {{ .Values.rabbitmq.password }}
+        virtual-host: {{ .Values.rabbitmq.virtualHost }}
