@@ -659,3 +659,132 @@ In the above case, the access url will be `http://192.168.99.100:31701/WfdMenu/r
 <p align="center">
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/menu_minikube.png">
 </p>
+
+##### [IBM Cloud Private](https://www.ibm.com/cloud-computing/solutions/private-cloud/)
+
+IBM Private Cloud is has all the advantages of public cloud but is dedicated to single organization. You can have your own security requirements and customize the environment as well. Basically it has tight security and gives you more control along with scalability and easy to deploy options. You can run it externally or brhind the firewall of your organization.
+
+Basically this is an on-premise platform.
+1. Includes docker container manager
+2. Kubernetes based container orchestrator
+3. Graphical user interface
+
+Microservice builder has an option to deploy with IBM Cloud Private. You can set it IBM Private Cloud with Microservice Builder pipeline to deploy the microservices.
+
+**Setting up your environment**
+
+Microservice Builder runs on a Jenkins pipeline. Basically Jenkins runs in a docker container and it is deployed on Kubernetes using helm.
+
+This jenkins should be integrated with the Github. The repository to which you push the code shold be integrated to Microservice Builder pipeline through Github. Then only Microservice Builder will be able to pick your code.
+
+To find instructions on how to set your Microservice Builder pipeline up, click [here](https://www.ibm.com/support/knowledgecenter/en/SS5PWC/pipeline.html).
+
+In addition to this, you should have [kubectl CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed in your system.
+
+##### Running the application on IBM Cloud Private
+
+Before running the application, make sure you added the docker registry secret.
+
+- Install the jq command line JSON processor utility.
+
+`yum install -y jq`
+
+or
+
+`apt install -y jq`
+
+- log in to the IBM Cloud Private. Login as **admin** user.
+
+- Go to **admin > Configure Client**.
+
+- Grab the kubectl configuration commands.
+
+- Run those commands at your end.
+
+- Create docker-registry secret **admin.registrykey**. This allows the pipeline to access the Docker registry.
+
+```
+kubectl create secret docker-registry admin.registrykey --docker-server=https://mycluster.icp:8500 --docker-username=admin --docker-password=admin --docker-email=null
+```
+- Now update the service account with the image pull secret.
+
+```
+kubectl get serviceaccounts default -o json |jq  'del(.metadata.resourceVersion)' |jq 'setpath(["imagePullSecrets"];[{"name":"admin.registrykey"}])' |kubectl replace serviceaccount default -f -
+```
+
+Once you have all this, you are ready to deploy your microservice to Microservice builder on IBM Cloud private.
+
+- Now you have your microservice builder pipeline configured.
+- Push the project to the repository that is monitored by your micro service builder pipeline.
+- It will automatically pick the project, build it and deploy it to IBM cloud private.
+
+From IBM cloud private dashboard, you can access the MSB pipeline from your services. The jenkins pipeline is as follows.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/jenkinsscreeen.png">
+</p>
+
+By clicking on the name of your organization, you can find all the MSB enabled repositories here.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mOrgscreen.png">
+</p>
+
+By clicking on the **refarch-cloudnative-wfd-menu**, you can see the below screen.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mjenkinsentscreen.png">
+</p>
+
+If you see a blue ball there, your service is successfully built and running fine. If it red, it means you have some problems with it.
+
+Whenever you do some changes and push the code to this repository, MSB build queue will initiate the process.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mMSBbuildqueue.png">
+</p>
+
+Once this is done, Jenkins slave will be called.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mjenkinsslaveinit.png">
+</p>
+
+Then the Jenkins slave will pick up the build and initiate the process.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mjenkinsslave%20build.png">
+</p>
+
+Then the build will begin and starts running.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mbuild.png">
+</p>
+
+Finally your service gets deployed once the build is done.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/mcompletedbuild.png">
+</p>
+
+To access your service, go to IBM Cloud Private dashboard.
+- Go to **Workload > Services > wfdmenu-service** and click on it.
+- You can see the service like below.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/wfdmenuservice.png">
+</p>
+
+Click on the **http** link there. You will be redirected to the Server page. Append **/WfdMenu/rest/menu** to the url and you will be able to see the Menu service.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/menuICP.png">
+</p>
+
+### References
+
+1. [Microservice Builder](https://www.ibm.com/support/knowledgecenter/en/SS5PWC/intro-microservice-builder.html)
+2. [Developer Tools CLI](https://console.bluemix.net/docs/cloudnative/dev_cli.html#developercli)
+3. [IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0/kc_welcome_containers.html)
+4. [Micrprofile](https://microprofile.io/)
