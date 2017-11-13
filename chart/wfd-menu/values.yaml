@@ -17,8 +17,11 @@ service:
   type: ClusterIP
   servicePort: 8180
 appetizer:
-  url: "http://wfdappetizer-service:8081/appetizers"
+  url:
+    core: "wfd-appetizer:8081/appetizers"
 entree:
-  url: "http://wfdentree-service:8082/entrees"
+  url:
+    core: "wfd-entree:8082/entrees"
 dessert:
-  url: "http://wfddessert-service:8083/desserts"
+  url:
+    core: "wfd-dessert:8083/desserts"

@@ -1,26 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Chart.Name }}-configmap
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    component: wfdmenu
+    component: {{ .Chart.Name }}
 data:
   application.yaml: |+
-    spring:
-      application:
-        name: menu-service
-
     server:
       port: {{ .Values.image.containerPort }}
 
     wfd:
       menu:
         appetizers:
-          url: {{ .Values.appetizer.url }}
+          url: http://{{ .Release.Name }}-{{ .Values.appetizer.url.core }}
         entrees:
-          url: {{ .Values.entree.url }}
+          url: http://{{ .Release.Name }}-{{ .Values.entree.url.core }}
         desserts:
-          url: {{ .Values.dessert.url }}
+          url: http://{{ .Release.Name }}-{{ .Values.dessert.url.core }}
