@@ -49,7 +49,7 @@ Menu Microservice serves [**What's For Dinner**](https://github.com/ibm-cloud-ar
 
 #### Pre-requisite
 
-For the Menu microservice to work,the downstream services [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) must be running.
+For the Menu microservice to work, the downstream services [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) must be running.
 
 ### Endpoints
 
@@ -581,7 +581,7 @@ fabric-zipkin   1         1         1            1          
 
 Before building the docker image, set the docker environment.
 
-- Run the beow command.
+- Run the below command.
 
 `minikube docker-env`
 
