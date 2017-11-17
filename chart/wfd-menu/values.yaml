@@ -6,7 +6,7 @@ image:
   repository: ibmcase
   name: wfd-menu
   tag: spring-cloud
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   containerPort: 8180
   resources:
     requests:
@@ -26,6 +26,7 @@ eureka:
 config:
   service: spring-stack-spring-config-server
   port: 8888
+  branch: spring-cloud
 rabbitmq:
   addresses: amqp://guest:guest@rabbitmq:5672
   host: rabbitmq
