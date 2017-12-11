@@ -190,11 +190,11 @@ If you are planning to include zipkin tracer in your application, please add the
 
 ```
 [INFO] --- maven-failsafe-plugin:2.18.1:verify (verify-results) @ WfdMenu ---
-[INFO] Failsafe report directory: /Users/Hemankita.Perabathini@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/test-reports/it
+[INFO] Failsafe report directory: /Users/user@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/test-reports/it
 [INFO]
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ WfdMenu ---
-[INFO] Installing /Users/Hemankita.Perabathini@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/WfdMenu-1.0-SNAPSHOT.war to /Users/Hemankita.Perabathini@ibm.com/.m2/repository/projects/WfdMenu/1.0-SNAPSHOT/WfdMenu-1.0-SNAPSHOT.war
-[INFO] Installing /Users/Hemankita.Perabathini@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/pom.xml to /Users/Hemankita.Perabathini@ibm.com/.m2/repository/projects/WfdMenu/1.0-SNAPSHOT/WfdMenu-1.0-SNAPSHOT.pom
+[INFO] Installing /Users/user@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/WfdMenu-1.0-SNAPSHOT.war to /Users/user@ibm.com/.m2/repository/projects/WfdMenu/1.0-SNAPSHOT/WfdMenu-1.0-SNAPSHOT.war
+[INFO] Installing /Users/user@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/pom.xml to /Users/user@ibm.com/.m2/repository/projects/WfdMenu/1.0-SNAPSHOT/WfdMenu-1.0-SNAPSHOT.pom
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -237,8 +237,8 @@ You can find a greater detail on how to run these services locally [here](https:
 ```
 [INFO] Starting server defaultServer.
 [INFO] Server defaultServer started with process ID 41852.
-[INFO] Waiting up to 30 seconds for server confirmation:  CWWKF0011I to be found in /Users/Hemankita.Perabathini@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log
-[INFO] CWWKM2010I: Searching for CWWKF0011I in /Users/Hemankita.Perabathini@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log. This search will timeout after 30 seconds.
+[INFO] Waiting up to 30 seconds for server confirmation:  CWWKF0011I to be found in /Users/user@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log
+[INFO] CWWKM2010I: Searching for CWWKF0011I in /Users/user@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log. This search will timeout after 30 seconds.
 [INFO] CWWKM2015I: Match number: 1 is [11/2/17 22:22:06:570 CDT] 00000019 com.ibm.ws.kernel.feature.internal.FeatureManager            A CWWKF0011I: The server defaultServer is ready to run a smarter planet..
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -300,7 +300,7 @@ To access the health api, replace the **ENDPOINT** with `health`. This endpoint 
 Once you do this, you see the below messages.
 
 ```
-[INFO] CWWKM2001I: Invoke command is [/Users/Hemankita.Perabathini@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/liberty/wlp/bin/server, stop, defaultServer].
+[INFO] CWWKM2001I: Invoke command is [/Users/user@ibm.com/PurpleCompute/Microprofile/WhatsForDinner/refarch-cloudnative-wfd-menu/target/liberty/wlp/bin/server, stop, defaultServer].
 [INFO] objc[45369]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/jre/bin/java (0x10a4fa4c0) and /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/jre/lib/libinstrument.dylib (0x10a5f44e0). One of the two will be used. Which one is undefined.
 [INFO] Stopping server defaultServer.
 [INFO] Server defaultServer stopped.
@@ -480,7 +480,7 @@ Kubectl is now configured to use the cluster.
 If it is successful, you will see the below output.
 
 ```
-$HELM_HOME has been configured at /Users/Hemankita.Perabathini@ibm.com/.helm.
+$HELM_HOME has been configured at /Users/user@ibm.com/.helm.
 
 Tiller (the helm server side component) has been installed into your Kubernetes Cluster.
 Happy Helming!
@@ -590,7 +590,7 @@ You will see the output similar to this.
 ```
 export DOCKER_TLS_VERIFY="1"
 export DOCKER_HOST="tcp://192.168.99.100:2376"
-export DOCKER_CERT_PATH="/Users/Hemankita.Perabathini@ibm.com/.minikube/certs"
+export DOCKER_CERT_PATH="/Users/user@ibm.com/.minikube/certs"
 export DOCKER_API_VERSION="1.23"
 # Run this command to configure your shell:
 # eval $(minikube docker-env)
