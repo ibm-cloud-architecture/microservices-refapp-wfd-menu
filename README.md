@@ -139,6 +139,68 @@ You should also include a feature in [server.xml](https://github.com/ibm-cloud-a
 </server>
 ```
 
+### Features
+
+1. Java SE 8 - Used Java Programming language
+2. JAX-RS 2.0.1 - JAX-RS is used for providing both standard client and server APIs for RESTful communication by MicroProfile applications.
+
+```
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@ApplicationPath("/rest")
+public class MenuApplication extends Application {
+
+}
+```
+
+```
+import javax.ws.rs.Path;
+
+@Path("menu")
+public class MenuResource {
+
+}
+```
+
+3. Eclipse MicroProfile Config 1.1 - Configuration data comes from different sources like system properties, system environment variables, .properties etc. These values may change dynamically. Using this feature, helps us to pick up configured values immediately after they got changed.
+
+The config values are sorted according to their ordinal. We can override the lower importance values from outside. The config sources by default, below is the order of importance.
+
+- System.getProperties()
+- System.getenv()
+- all META-INF/microprofile-config.properties files on the ClassPath.
+
+In our sample application, we obtained the configuration programatically. Below is the code snippet that shows it.
+
+```
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+public class MenuAggregate {
+
+  Config config = ConfigProvider.getConfig();
+
+  public MealAppetizer getCurrentAppetizers()
+	{
+		String appetizer_uri = config.getValue("appetizer_url", String.class);
+	  ......
+	}
+
+  public MealEntree getCurrentEntrees()
+  {
+  	String entree_uri = config.getValue("entree_url", String.class);
+    ......
+  }
+
+  public MealDessert getCurrentDesserts()
+	{
+		String dessert_uri = config.getValue("dessert_url", String.class);
+		......  
+  }
+}
+```
+
 ##### Running the application locally using Maven Build
 
 1. Clone this repository.
