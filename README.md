@@ -22,17 +22,18 @@ This repository contains the **Java MicroProfile** implementation of the **Menu 
 2. [How it works](#how-it-works)
 3. [API Endpoints](#api-endpoints)
 4. [Implementation](#implementation)
-    1. [Microprofile](#microprofile)
-    2. [Maven build](#maven-build)
-        - [Running the application locally using Maven Build](#running-the-application-locally-using-Maven-Build)
-    3. [Docker file](#docker-file)
-        - [Running the application locally in a docker container](#running-the-application-locally-in-a-docker-container)
-    4. [Microservice Builder](#microservice-builder)
-        1. [Minikube development Environment](#minikube-development-environment)
-           - [Running the application on Minikube](#running-the-application-on-minikube)
-        2. [IBM Cloud Private](#ibm-cloud-private)
-           - [Running the application on IBM Cloud Private](#running-the-application-on-ibm-cloud-private)
-5. [References](#references)
+    1. [Liberty app accelerator](#liberty-app-accelerator)
+    2. [Microprofile](#microprofile)
+5. [Features and App details](#features)
+6. [Building the app](#building-the-app)
+7. [Running the app and stopping it](#running-the-app-and-stopping-it)
+    1. [Pre-requisites](#pre-requisites)
+    2. [Locally in JVM](#locally-in-jvm)
+    3. [Locally in Containers](#locally-in-containers)
+    4. [Locally in Minikube](#locally-in-minikube)
+    5. [Remotely in ICP](#remotely-in-icp)
+8. [DevOps Strategy](#devops-strategy)
+9. [References](#references)
 
 ### Introduction
 
@@ -60,44 +61,7 @@ GET     /WfdMenu/rest/menu/          # Returns the appetizers, desserts, entrees
 
 ### Implementation
 
-#### [MicroProfile](https://microprofile.io/)
-
-MicroProfile is an open platform that optimizes the Enterprise Java for microservices architecture. In this application, we are using [**MicroProfile 1.2**](https://github.com/eclipse/microprofile-bom). This includes
-
-- MicroProfile 1.0 ([JAX-RS 2.0](https://jcp.org/en/jsr/detail?id=339), [CDI 1.2](https://jcp.org/en/jsr/detail?id=346), and [JSON-P 1.0](https://jcp.org/en/jsr/detail?id=353))
-- MicroProfile 1.1 (MicroProfile 1.0, [MicroProfile Config 1.0.](https://github.com/eclipse/microprofile-config))
-- [MicroProfile Config 1.1](https://github.com/eclipse/microprofile-config) (supercedes MicroProfile Config 1.0), [MicroProfile Fault Tolerance 1.0](https://github.com/eclipse/microprofile-fault-tolerance), [MicroProfile Health Check 1.0](https://github.com/eclipse/microprofile-health), [MicroProfile Metrics 1.0](https://github.com/eclipse/microprofile-metrics), [MicroProfile JWT Authentication 1.0](https://github.com/eclipse/microprofile-jwt-auth).
-
-You can make use of this feature by including this dependency in Maven.
-
-```
-<dependency>
-<groupId>org.eclipse.microprofile</groupId>
-<artifactId>microprofile</artifactId>
-<version>1.2</version>
-<type>pom</type>
-<scope>provided</scope>
-</dependency>
-```
-
-You should also include a feature in [server.xml](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-menu/blob/microprofile/src/main/liberty/config/server.xml).
-
-```
-<server description="Sample Liberty server">
-
-  <featureManager>
-      <feature>microprofile-1.2</feature>
-  </featureManager>
-
-  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" host="*" />
-
-</server>
-```
-
-#### Maven build
-
-Maven is a project management tool that is based on the Project Object Model (POM). Typically, people use Maven for project builds, dependencies, and documentation. Maven simplifies the project build. In this task, you use Maven to build the project.
+#### [Liberty app accelerator](https://liberty-app-accelerator.wasdev.developer.ibm.com/start/)
 
 For Liberty, there is nice tool called [Liberty Accelerator](https://liberty-app-accelerator.wasdev.developer.ibm.com/start/) that generates a simple project based upon your configuration. Using this, you can build and deploy to Liberty either using the Maven or Gradle build.
 
@@ -140,34 +104,39 @@ For our application, the following are the required dependencies which are the p
 
 Using Liberty Accelerator is your choice. You can also create the entire project manually, but using Liberty Accelerator will make things easier.
 
-To make use of MicroProfile 1.2, include the below dependency in your POM.
+#### [MicroProfile](https://microprofile.io/)
+
+MicroProfile is an open platform that optimizes the Enterprise Java for microservices architecture. In this application, we are using [**MicroProfile 1.2**](https://github.com/eclipse/microprofile-bom). This includes
+
+- MicroProfile 1.0 ([JAX-RS 2.0](https://jcp.org/en/jsr/detail?id=339), [CDI 1.2](https://jcp.org/en/jsr/detail?id=346), and [JSON-P 1.0](https://jcp.org/en/jsr/detail?id=353))
+- MicroProfile 1.1 (MicroProfile 1.0, [MicroProfile Config 1.0.](https://github.com/eclipse/microprofile-config))
+- [MicroProfile Config 1.1](https://github.com/eclipse/microprofile-config) (supercedes MicroProfile Config 1.0), [MicroProfile Fault Tolerance 1.0](https://github.com/eclipse/microprofile-fault-tolerance), [MicroProfile Health Check 1.0](https://github.com/eclipse/microprofile-health), [MicroProfile Metrics 1.0](https://github.com/eclipse/microprofile-metrics), [MicroProfile JWT Authentication 1.0](https://github.com/eclipse/microprofile-jwt-auth).
+
+You can make use of this feature by including this dependency in Maven.
 
 ```
 <dependency>
-    <groupId>org.eclipse.microprofile</groupId>
-    <artifactId>microprofile</artifactId>
-    <version>1.2</version>
-    <type>pom</type>
-    <scope>provided</scope>
+<groupId>org.eclipse.microprofile</groupId>
+<artifactId>microprofile</artifactId>
+<version>1.2</version>
+<type>pom</type>
+<scope>provided</scope>
 </dependency>
 ```
 
-If you want to enable Zipkin OpenTracing feature, please include the below dependency in your POM.
+You should also include a feature in [server.xml](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-menu/blob/microprofile/src/main/liberty/config/server.xml).
 
 ```
-<dependency>
-    <groupId>net.wasdev.wlp.tracer</groupId>
-    <artifactId>liberty-opentracing-zipkintracer</artifactId>
-    <version>1.0</version>
-    <type>jar</type>
-    <scope>provided</scope>
-</dependency>
-```
+<server description="Sample Liberty server">
 
-If you are planning to include zipkin tracer in your application, please add the below feature to your [server.xml](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-menu/blob/microprofile/src/main/liberty/config/server.xml).
+  <featureManager>
+      <feature>microprofile-1.2</feature>
+  </featureManager>
 
-```
-<feature>opentracingZipkin-0.30</feature>
+  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+      id="defaultHttpEndpoint" host="*" />
+
+</server>
 ```
 
 ##### Running the application locally using Maven Build
