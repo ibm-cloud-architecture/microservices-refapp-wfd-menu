@@ -201,7 +201,9 @@ public class MenuAggregate {
 }
 ```
 
-##### Running the application locally using Maven Build
+### Building the app
+
+To build the application, we used maven build. Maven is a project management tool that is based on the Project Object Model (POM). Typically, people use Maven for project builds, dependencies, and documentation. Maven simplifies the project build. In this task, you use Maven to build the project.
 
 1. Clone this repository.
 
@@ -235,7 +237,46 @@ public class MenuAggregate {
 [INFO] ------------------------------------------------------------------------
 ```
 
-5. Before starting your server, make sure [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) services are running. If you are running all the services locally on your system, you need to modify the ports in the respective POM.xml and run the server.
+### Running the app and stopping it
+
+### Pre-requisites
+
+1. Locally in JVM
+
+To run the What's For Dinner application locally in JVM, please complete the [Building the app](#building-the-app) section.
+
+2. Locally in Containers
+
+To run the What's For Dinner application locally in container, you need [Docker](https://www.docker.com/) to be locally present in your system.
+
+3. Locally in Minikube
+
+To run the What's For Dinner application locally on your laptop on a Kubernetes-based environment such as Minikube (which is meant to be a small development environment) we first need to get few tools installed:
+
+- [Kubectl](https://kubernetes.io/docs/user-guide/kubectl-overview/) (Kubernetes CLI) - Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install it on your platform.
+- [Helm](https://github.com/kubernetes/helm) (Kubernetes package manager) - Follow the instructions [here](https://github.com/kubernetes/helm/blob/master/docs/install.md) to install it on your platform.
+
+Finally, we must create a Kubernetes Cluster. As already said before, we are going to use Minikube:
+
+- [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) - Create a single node virtual cluster on your workstation. Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) to get Minikube installed on your workstation.
+
+We not only recommend to complete the three Minikube installation steps on the link above but also read the [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) page for getting more familiar with Minikube. We can learn there interesting things such as reusing our Docker daemon, getting the Minikube's ip or opening the Minikube's dashboard for GUI interaction with out Kubernetes Cluster.
+
+4. Remotely in ICP
+
+To run the What's For Dinner application on IBM Cloud Private, we first need to get few tools installed:
+
+- [Kubectl](https://kubernetes.io/docs/user-guide/kubectl-overview/) (Kubernetes CLI) - Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install it on your platform.
+
+- [IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K). You can find the detailed installation instructions [here](https://github.com/ibm-cloud-architecture/refarch-privatecloud).
+
+Along with these, you also need a [JSON processor utility](https://stedolan.github.io/jq/).
+
+- In our sample, we used Microservice Builder as our Devops strategy. To ensure continuous delivery and deployment, you need a continuous integration pipeline and Microservice Builder serves this purpose so very well. In order to take advantage of this, you need to setup the Microservice Builder pipeline. To find instructions on how to set your Microservice Builder pipeline up, click [here](https://www.ibm.com/support/knowledgecenter/en/SS5PWC/pipeline.html).
+
+### Locally in JVM
+
+1. Before starting your server, make sure [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) services are running. If you are running all the services locally on your system, you need to modify the ports in the respective POM.xml and run the server.
 
 - Open POM.xml in your respective microservice. Modify the below. Place the desired port here. Make sure all the services are running on different ports.
 
@@ -260,7 +301,7 @@ Let's say the appetizer service is running on 9081, dessert service is running o
 
 You can find a greater detail on how to run these services locally [here](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/local_readme.md).
 
-6. Now start your server.
+2. Now start your server.
 
    `mvn liberty:start-server`
 
@@ -280,7 +321,7 @@ You can find a greater detail on how to run these services locally [here](https:
 [INFO] ------------------------------------------------------------------------
 ```
 
-6. Now, go to your browser and access the REST endpoint at `http://localhost:9080/WfdMenu/rest/menu`.
+3. Now, go to your browser and access the REST endpoint at `http://localhost:9080/WfdMenu/rest/menu`.
 
 <p align="center">
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MenuScreen.png">
@@ -324,7 +365,7 @@ Also, there is one more endpoint defined at [HealthEndpoint.java](https://github
 
 To access the health api, replace the **ENDPOINT** with `health`. This endpoint gives the health of your application. To check this, use http://localhost:9080/WfdMenu/rest/health.
 
-7. If you are done accessing the application, you can stop your server using the following command.
+4. If you are done accessing the application, you can stop your server using the following command.
 
    `mvn liberty:stop-server`
 
@@ -342,6 +383,10 @@ Once you do this, you see the below messages.
 [INFO] Finished at: 2017-11-02T22:33:26-05:00
 [INFO] Final Memory: 7M/245M
 ```
+
+### Locally in Containers
+
+To run the application in docker, we first need to define a Docker file.
 
 #### Docker file
 
@@ -375,21 +420,7 @@ CMD ["/opt/ibm/wlp/bin/server", "run", "defaultServer"]
 
 ##### Running the application locally in a container
 
-1. Clone this repository.
-
-   `git clone https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-menu.git`
-
-2. Checkout MicroProfile branch.
-
-   `git checkout microprofile`
-
-3. `cd refarch-cloudnative-wfd-menu/`
-
-4. Run this command. This command builds the project and installs it.
-
-   `mvn install`
-
-5. Build the docker image.
+1. Build the docker image.
 
 `docker build -t wfd-menu:microprofile .`
 
@@ -406,7 +437,7 @@ You can see the docker images by using this command.
 REPOSITORY                     TAG                 IMAGE ID            CREATED             SIZE
 wfd-menu                       microprofile        0f28e1d268d8        15 seconds ago      377MB
 ```
-6. Before running the docker images, make sure [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) services are running. If you are running all the services locally on your system, you need to modify the ports.
+2. Before running the docker images, make sure [Appetizer](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/tree/microprofile), [Dessert](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-dessert/tree/microprofile) and [Entree](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-entree/tree/microprofile) services are running. If you are running all the services locally on your system, you need to modify the ports.
 
 - Modify the below. Place the desired port here. Make sure all the services are running on different ports.
 
@@ -430,7 +461,7 @@ Let's say the appetizer service is running on 9081, dessert service is running o
 
 You can find a greater detail on how to run these services locally [here](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/local_docker_readme.md).
 
-7. Run the docker image.
+3. Run the docker image.
 
 ```
 docker run -p 9080:9080 --name menu -t --link appetizer:appetizer --link dessert:dessert --link entree:entree --env appetizer_url=http://appetizer:9080/WfdAppetizer/rest/appetizer --env entree_url=http://entree:9080/WfdEntree/rest/entree --env dessert_url=http://dessert:9080/WfdDessert/rest/dessert wfd-menu:microprofile
@@ -448,7 +479,7 @@ When it is done, you will see the following output.
 [AUDIT   ] CWWKF0012I: The server installed the following features: [microProfile-1.2, mpFaultTolerance-1.0, servlet-3.1, ssl-1.0, jndi-1.0, mpHealth-1.0, appSecurity-2.0, jsonp-1.0, mpConfig-1.1, jaxrs-2.0, jaxrsClient-2.0, concurrent-1.0, jwt-1.0, mpMetrics-1.0, mpJwt-1.0, json-1.0, cdi-1.2, distributedMap-1.0].
 [AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
 ```
-8. Now, view the REST endpoint at `http://localhost:9080/WfdMenu/rest/menu`.
+4. Now, view the REST endpoint at `http://localhost:9080/WfdMenu/rest/menu`.
 
 <p align="center">
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MenuScreen.png">
@@ -456,9 +487,9 @@ When it is done, you will see the following output.
 
    Access URL : `http://<HOST>:<PORT>/<WAR_CONTEXT>/<APPLICATION_PATH>/<ENDPOINT>`
 
-9. Once you make sure the application is working as expected, you can come out of the process. You can do this by pressing Ctrl+C on the command line where the server was started.
+5. Once you make sure the application is working as expected, you can come out of the process. You can do this by pressing Ctrl+C on the command line where the server was started.
 
-10. You can also remove the container if desired. This can be done in the following way.
+6. You can also remove the container if desired. This can be done in the following way.
 
 `docker ps`
 
@@ -474,21 +505,9 @@ In this case it will be, `docker stop ad29d4d694f5`
 - Do `docker rm <CONTAINER ID>`
 In this case it will be, `docker rm ad29d4d694f5`
 
-#### [Microservice Builder](https://www.ibm.com/us-en/marketplace/microservice-builder)
+### Locally in Minikube
 
-Microservice Builder helps us to develop and deploy microservice based applications. It helps us to maintain the application end to end from development to production supporting continuous delivery. Using the pre-integrated Devops pipeline, developers can rapidly build innovative services and deploy them easily.   
-
-##### Minikube development Environment
-
-You can always test your application locally using [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) in a local kubernetes environment. It runs a single-node Kubernetes cluster inside a VM.
-
-Before running the application, do the below.
-
-1. Install [Docker](https://docs.docker.com/engine/installation/)
-2. Install [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#installation)
-3. Install [Kubectl CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-
-**Setting up your environment**
+#### Setting up your environment
 
 1. Start your minikube. Run the below command.
 
@@ -528,38 +547,7 @@ NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 tiller-deploy   1         1         1            1           1m
 ```
 
-4. Run the below command to add IBM helm repository
-
-`helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/`
-
-If added, you will see the below message.
-
-```
-"ibm-charts" has been added to your repositories
-```
-
-5. To install microservice builder fabric using helm, run the below command.
-
-`helm install --name fabric ibm-charts/ibm-microservicebuilder-fabric`
-
-If you see something like the below message, your tiller version is not compatible.T
-
-```
-Error: Chart incompatible with Tiller v2.4.2
-```
-
-Sometimes the version of helm installed by Kubernetes package manager might not be compatible. If you are encountering a problem, please upgrade your helm tiller version to packages 2.5.0 or higher. You can do this using the below command.
-
-`helm init --upgrade --tiller-image gcr.io/kubernetes-helm/tiller:v2.5.0`
-
-If the command is successful, you will see the below message.
-
-```
-Tiller (the helm server side component) has been upgraded to the current version.
-Happy Helming!
-```
-
-6. Verify your helm version before proceeding like below.
+4. Verify your helm version before proceeding like below.
 
 `helm version`
 
@@ -570,45 +558,9 @@ Client: &version.Version{SemVer:"v2.4.2", GitCommit:"82d8e9498d96535cc6787a6a919
 Server: &version.Version{SemVer:"v2.5.0", GitCommit:"012cb0ac1a1b2f888144ef5a67b8dab6c2d45be6", GitTreeState:"clean"}
 ```
 
-7. Run `helm install --name fabric ibm-charts/ibm-microservicebuilder-fabric`
+#### Running the application on Minikube
 
-```
-Get the Zipkin URL by running these commands:
-  export POD_NAME=$(kubectl get pods --namespace default -l "app=fabric-zipkin" -o jsonpath="{.items[0].metadata.name}")
-  kubectl port-forward $POD_NAME 9411:9411
-  echo "Visit http://127.0.0.1:9411 to use your application"
-```
-
-8. Check if your fabric zipkin deployment is available. You can do this by running the below command.
-
-`kubectl get deployment fabric-zipkin`
-
-If it is available, you can see the below message.
-
-```
-NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-fabric-zipkin   1         1         1            1           46s
-```
-
-##### Running the application on Minikube
-
-1. Clone this repository.
-
-   `git clone https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-menu.git`
-
-2. Checkout MicroProfile branch.
-
-   `git checkout microprofile`
-
-3. `cd refarch-cloudnative-wfd-menu/`
-
-4. Run this command. This command builds the project and installs it.
-
-   `mvn install`
-
-5. For your information, this repository is enabled using [IBM Cloud Developer Tools CLI](https://console.bluemix.net/docs/cloudnative/dev_cli.html#developercli). By using `bx dev enable`, based upon your language, it generates and adds files that can be used for local Docker containers, or Kubernetes/Container Deployment etc. You can nicely make use of those templates and customize the files based upon your information.
-
-6. Build the docker image.
+1. Build the docker image.
 
 Before building the docker image, set the docker environment.
 
@@ -642,7 +594,7 @@ Successfully built eb57538123a2
 Successfully tagged wfdmenu:v1.0.0
 ```
 
-7. Run the helm chart as below.
+2. Run the helm chart as below.
 
 `helm install --name=wfdmenu chart/wfdmenu`
 
@@ -691,7 +643,9 @@ In the above case, the access url will be `http://192.168.99.100:31701/WfdMenu/r
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/menu_minikube.png">
 </p>
 
-##### [IBM Cloud Private](https://www.ibm.com/cloud-computing/solutions/private-cloud/)
+### Remotely in ICP
+
+#### [IBM Cloud Private](https://www.ibm.com/cloud-computing/solutions/private-cloud/)
 
 IBM Private Cloud is has all the advantages of public cloud but is dedicated to single organization. You can have your own security requirements and customize the environment as well. Basically it has tight security and gives you more control along with scalability and easy to deploy options. You can run it externally or behind the firewall of your organization.
 
@@ -702,19 +656,7 @@ Basically this is an on-premise platform.
 
 You can find the detailed installation instructions for IBM Cloud Private [here](https://github.com/ibm-cloud-architecture/refarch-privatecloud)
 
-Microservice builder has an option to deploy with IBM Cloud Private. You can set it IBM Private Cloud with Microservice Builder pipeline to deploy the microservices.
-
-**Setting up your environment**
-
-Microservice Builder runs on a Jenkins pipeline. Basically Jenkins runs in a docker container and it is deployed on Kubernetes using helm.
-
-This jenkins should be integrated with the Github. The repository to which you push the code should be integrated to Microservice Builder pipeline through Github. Then only Microservice Builder will be able to pick your code.
-
-To find instructions on how to set your Microservice Builder pipeline up, click [here](https://www.ibm.com/support/knowledgecenter/en/SS5PWC/pipeline.html).
-
-In addition to this, you should have [kubectl CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed in your system.
-
-##### Running the application on IBM Cloud Private
+#### Running the application on IBM Cloud Private
 
 Before running the application, make sure you added the docker registry secret.
 
@@ -750,6 +692,20 @@ Once you have all this, you are ready to deploy your microservice to Microservic
 - Now you have your microservice builder pipeline configured.
 - Push the project to the repository that is monitored by your micro service builder pipeline.
 - It will automatically pick the project, build it and deploy it to IBM cloud private.
+
+To access the sample application, go to IBM Cloud Private dashboard.
+- Go to **Workload > Services > wfdui** and click on it.
+- You can see the service like below.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/wfduiservice.png">
+</p>
+
+Click on the **http** link there. You will be redirected to the UI.
+
+<p align="center">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/uiICP.png">
+</p>
 
 From IBM cloud private dashboard, you can access the MSB pipeline from your services. The jenkins pipeline is as follows.
 
