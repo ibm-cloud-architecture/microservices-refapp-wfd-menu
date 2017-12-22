@@ -707,6 +707,14 @@ Click on the **http** link there. You will be redirected to the UI.
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/uiICP.png">
 </p>
 
+### DevOps strategy
+
+We opted [Microservice Builder](https://www.ibm.com/us-en/marketplace/microservice-builder) as our continuos delivery pipeline. It helps us to maintain the application end to end from development to production supporting continuous delivery. It helps us to develop and deploy microservice based applications. Using the pre-integrated Devops pipeline, developers can rapidly build innovative services and deploy them easily.
+
+Microservice Builder runs on a Jenkins pipeline. Basically Jenkins runs in a docker container and it is deployed on Kubernetes using helm. This jenkins should be integrated with the Github. The repository to which you push the code should be integrated to Microservice Builder pipeline through Github. Then only Microservice Builder will be able to pick your code.
+
+Microservice builder has an option to deploy with IBM Cloud Private. You can set IBM Private Cloud with Microservice Builder pipeline to deploy the microservices.
+
 From IBM cloud private dashboard, you can access the MSB pipeline from your services. The jenkins pipeline is as follows.
 
 <p align="center">
