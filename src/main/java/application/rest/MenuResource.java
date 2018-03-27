@@ -17,7 +17,9 @@ import application.rest.model.MealEntree;
 public class MenuResource {
 
 	  private MenuAggregate aggregate = new MenuAggregate();
-	  
+
+    //@Fallback (fallbackMethod = "fallbackService")
+		//@CircuitBreaker(requestVolumeThreshold=5, failureRatio=0.5, delay=6000, successThreshold=4)
 	  @GET
 	  @Produces({ "application/json" })
 	  public List findAll() {
@@ -29,13 +31,35 @@ public class MenuResource {
 
 	  MealEntree entrees = aggregate.getCurrentEntrees();
 	  menu.setEntrees(entrees);
-	  
+
 	  MealDessert desserts = aggregate.getCurrentDesserts();
 	  menu.setDesserts(desserts);
-	  
+
 	  ArrayList<Menu> MenuList = new ArrayList<Menu>();
       MenuList.add(menu);
 	  return MenuList;
 
 	  }
+
+	  @GET
+	  @Produces({ "application/json" })
+	  public List fallbackService() {
+
+	  Menu menu = new Menu();
+
+	  MealAppetizer apps = aggregate.getDefaultAppetizers();
+	  menu.setAppetizers(apps);
+
+	  MealEntree entrees = aggregate.getDefaultEntrees();
+	  menu.setEntrees(entrees);
+
+	  MealDessert desserts = aggregate.getDefaultDesserts();
+	  menu.setDesserts(desserts);
+
+	  ArrayList<Menu> MenuList = new ArrayList<Menu>();
+      MenuList.add(menu);
+	  return MenuList;
+
+	  }
+
 }

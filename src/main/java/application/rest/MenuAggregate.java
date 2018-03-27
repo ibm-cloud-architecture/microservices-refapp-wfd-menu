@@ -30,16 +30,14 @@ public class MenuAggregate {
 	    return mealappetizer;
 	  }
 
-	  public List<MealAppetizer> getDefaultAppetizers(){
-		List<MealAppetizer> listapp = new ArrayList<>();
+	  public MealAppetizer getDefaultAppetizers(){
 	    List<String> appetizerList = new ArrayList<String>();
 	                 appetizerList.add("Chips");
 	                 appetizerList.add("Salsa");
 	                 appetizerList.add("Bruschetta");
 
 	    MealAppetizer ma = new MealAppetizer(1, appetizerList, "default-appetizers");
-	    listapp.add(ma);
-	    return listapp;
+	    return ma;
 
 	  }
 	  
@@ -52,16 +50,14 @@ public class MenuAggregate {
 		return mealentree;
 	  }
 
-	  public List<MealEntree> getDefaultEntrees(){
-		  List<MealEntree> listent = new ArrayList<>();
+	  public MealEntree getDefaultEntrees(){
 		    List<String> entreeList = new ArrayList<String>();
 		                 entreeList.add("Hamburger");
 		                 entreeList.add("Hot Dog");
 		                 entreeList.add("Spaghetti");
 
 		    MealEntree me = new MealEntree(2, entreeList, "default-entrees");
-		    listent.add(me);
-		    return listent;
+		    return me;
 
 	  }
 
@@ -74,15 +70,15 @@ public class MenuAggregate {
 		  return mealdessert;
       }
 
-	  public List<MealDessert> getDefaultDesserts(){
-		  List<MealDessert> listdes = new ArrayList<>();
+	  public MealDessert getDefaultDesserts(){
 		    List<String> dessertList = new ArrayList<String>();
 		                 dessertList.add("Cookies");
 		                 dessertList.add("Candy");
 		                 dessertList.add("Cake");
 		    MealDessert md = new MealDessert(3, dessertList, "default-desserts");
-		    listdes.add(md);
-		    return listdes;
+		    return md;
+		    
+		  
 
 	  }
 }
