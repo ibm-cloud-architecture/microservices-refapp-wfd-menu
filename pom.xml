@@ -6,6 +6,13 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <!-- contains default pluginManagement configuration for liberty-maven-plugin -->
+    <parent>
+        <groupId>net.wasdev.wlp.maven.parent</groupId>
+        <artifactId>liberty-maven-app-parent</artifactId>
+        <version>2.1.2</version>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -16,42 +23,34 @@
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
         <warContext>${app.name}</warContext>
-        <package.file>${project.build.directory}/${app.name}.zip</package.file>
+        <package.file>${project.build.directory}/${project.artifactId}-${project.version}.zip</package.file>
         <packaging.type>usr</packaging.type>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.12</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.1.11</version>
-            <scope>test</scope>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-rs-client</artifactId>
+          <version>3.1.11</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.0.4</version>
-            <scope>test</scope>
+          <groupId>org.glassfish</groupId>
+          <artifactId>javax.json</artifactId>
+          <version>1.0.4</version>
+          <scope>test</scope>        
         </dependency>
         <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            <version>1.2</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.wasdev.wlp.tracer</groupId>
-            <artifactId>liberty-opentracing-zipkintracer</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-            <scope>provided</scope>
+          <groupId>org.eclipse.microprofile</groupId>
+          <artifactId>microprofile</artifactId>
+          <version>1.2</version>
+          <type>pom</type>
         </dependency>
     </dependencies>
 
@@ -84,68 +83,26 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>copy-app</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                          <outputDirectory>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/dropins</outputDirectory>
-                          <resources>
-                            <resource>
-                              <directory>${project.build.directory}</directory>
-                              <includes>
-                                <include>${project.artifactId}-${project.version}.war</include>
-                              </includes>
-                            </resource>
-                          </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Enable liberty-maven plugin -->
             <plugin>
                 <groupId>net.wasdev.wlp.maven.plugins</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>1.2</version>
-                <extensions>true</extensions>
                 <configuration>
-                    <install>
-                        <type>webProfile7</type>
-                        <version>2017.+</version>
-                    </install>
                     <configFile>${basedir}/src/main/liberty/config/server.xml</configFile>
                     <serverEnv>${basedir}/src/main/liberty/config/server.env</serverEnv>
                     <jvmOptionsFile>${basedir}/src/main/liberty/config/jvm.options</jvmOptionsFile>
                     <packageFile>${package.file}</packageFile>
                     <include>${packaging.type}</include>
                     <bootstrapProperties>
+                        <app.location>${project.artifactId}-${project.version}.war</app.location>
                         <default.http.port>${testServerHttpPort}</default.http.port>
                         <default.https.port>${testServerHttpsPort}</default.https.port>
                     </bootstrapProperties>
+                    <features>
+                        <acceptLicense>true</acceptLicense>
+                    </features>
+                    <looseApplication>false</looseApplication>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>install-liberty</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>install-server</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>package-app</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>package-server</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <!-- Plugin to run functional tests -->
             <plugin>
@@ -191,42 +148,6 @@
                 <package.file>${project.build.directory}/${app.name}.jar</package.file>
                 <packaging.type>runnable</packaging.type>
             </properties>
-        </profile>
-        <profile>
-            <id>liberty-test</id>
-
-            <!--Do not start the server unless testing-->
-
-            <activation>
-                <property>
-                    <name>!skipTests</name>
-                </property>
-            </activation>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>start-server</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start-server</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop-server</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop-server</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 </project>
