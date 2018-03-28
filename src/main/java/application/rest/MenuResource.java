@@ -41,7 +41,7 @@ public class MenuResource {
 
 	  }
 
-	  @GET
+	  /*@GET
 	  @Produces({ "application/json" })
 	  public List fallbackService() {
 
@@ -60,6 +60,6 @@ public class MenuResource {
       MenuList.add(menu);
 	  return MenuList;
 
-	  }
+	}*/
 
 }
